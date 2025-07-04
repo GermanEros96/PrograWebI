@@ -30,10 +30,12 @@
       <input type="submit" class="fadeIn fourth" [disabled]="loginForm.invalid" value="Ingresar">
     </form>
 
-    <!-- Remind Passowrd -->
-    <div id="formFooter">
-      <a class="underlineHover" href="#">¿Olvido Su contraseña?</a>
-    </div>
+<div id="formFooter">
+  <a class="underlineHover" href="#">¿Olvidó Su contraseña?</a>
+  <br>
+  <a  [routerLink]="['/registrarte']" class="underlineHover"  routerLinkActive="router-link-active" >Registrarse</a>
+</div>
+
 
   </div>
 </div>
