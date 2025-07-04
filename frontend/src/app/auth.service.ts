@@ -6,12 +6,12 @@ import { tap } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost/frontend/src/api';
+  private apiUrl = 'http://localhost:8012/miproyecto/api';
 
   constructor(private http: HttpClient) {}
 
   login(credenciales: { email: string; clave: string }) {
-    return this.http.post(this.apiUrl + '/login', credenciales).pipe(
+    return this.http.post(this.apiUrl + '/index.php?comando=login', credenciales).pipe(
       tap((response: any) => {
         if (response.jwt) {
           localStorage.setItem('jwt_token', response.jwt);

@@ -13,10 +13,21 @@
     </div>
 
     <!-- Login Form -->
-    <form>
-      <input type="text" id="login" class="fadeIn second" name="login" placeholder="Email o Nombre de Usuario">
-      <input type="text" id="password" class="fadeIn third" name="login" placeholder="Contraseña">
-      <input type="submit" class="fadeIn fourth" value="Ingresar">
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <input type="text" id="login" class="fadeIn second"  [(ngModel)]="email" name="login"  #emailInput="ngModel" placeholder="Email o Nombre de Usuario">
+
+        <div *ngIf="emailInput.invalid && emailInput.touched" style="color:red;">
+        El email es obligatorio y debe ser válido.
+      </div>
+
+
+      <input type="text" id="password" class="fadeIn third" [(ngModel)]="clave" name="clave" #claveInput="ngModel" placeholder="Contraseña">
+
+            <div *ngIf="claveInput.invalid && claveInput.touched" style="color:red;">
+        La contraseña es obligatoria.
+      </div>
+
+      <input type="submit" class="fadeIn fourth" [disabled]="loginForm.invalid" value="Ingresar">
     </form>
 
     <!-- Remind Passowrd -->
