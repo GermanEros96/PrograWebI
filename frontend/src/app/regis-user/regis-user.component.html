@@ -7,23 +7,57 @@
   <div id="formContent">
 
     <!-- Login Form -->
-    <form>
-        <br>
-      <input type="text" id="userName" class="fadeIn second"  name="userName"   placeholder="Email o Nombre de Usuario">
-      <input type="text" id="password" class="fadeIn third"  name="clave"  placeholder="Contraseña">
-      <input type="text" id="re-password" class="fadeIn third"  name="clave"  placeholder="Reingrese su Contraseña">
-      <input type="text" id="login" class="fadeIn second"  name="login"   placeholder="Nombre / Name">
-      <input type="text" id="namecomplete" class="fadeIn third"  name="clave"  placeholder="Apellido / Surname">
-      
+    <form (ngSubmit)="onSubmit(registerForm)" #registerForm="ngForm">
 
-      <input type="submit" class="fadeIn fourth"  value="Ingresar">
+      <br>
+      <!-- Campo Email-->
+      <input type="text" id="userName" class="fadeIn second" name="userName" placeholder="Email de Usuario"
+        [(ngModel)]="userName" required email #userNameInput="ngModel">
+
+      <div *ngIf="userNameInput.invalid && userNameInput.touched" class="text-danger">
+        Debe ingresar un email válido.
+      </div>
+
+      <!-- Campo Contrasenia-->
+      <input type="text" id="password" class="fadeIn third" name="password" placeholder="Contraseña"
+        [(ngModel)]="password" required minlength="8" #passwordInput="ngModel">
+
+      <div *ngIf="passwordInput.invalid && passwordInput.touched" class="text-danger">
+        La contraseña debe tener al menos 8 caracteres.
+      </div>
+
+
+      <!-- Campo Re- Contrasenia (Experiencia Visual Mejor)-->
+      <input type="text" id="re-password" class="fadeIn third" name="re-password" placeholder="Reingrese su Contraseña"
+        [(ngModel)]="rePassword" required required [pattern]="password" #rePasswordInput="ngModel">
+
+      <div *ngIf="rePasswordInput.invalid && rePasswordInput.touched" class="text-danger">
+        Las contraseñas deben coincidir.
+      </div>
+
+      <!-- Campo Nombre-->
+      <input type="text" id="login" class="fadeIn second" name="login" placeholder="Nombre / Name" [(ngModel)]="login"
+        required #loginInput="ngModel">
+
+
+      <!-- Campo Apellido-->
+      <input type="text" id="namecomplete" class="fadeIn third" name="namecomplete" placeholder="Apellido / Surname"
+        [(ngModel)]="namecomplete" required #namecompleteInput="ngModel">
+
+      <br><br>
+      <input type="submit" class="fadeIn fourth" value="Registrarme" [disabled]="registerForm.invalid || loading" />
+      <br>
+      <div *ngIf="loading" class="spinner-border text-primary" role="status" style="margin-left: 10px;">
+        <span class="sr-only">Loading...</span>
+      </div>
       <br>
     </form>
 
-<div id="formFooter">
-  <br>
-  <a  [routerLink]="['../loginscreen']" class="underlineHover"  routerLinkActive="router-link-active" >Volver a Iniciar Sesion</a>
-</div>
+    <div id="formFooter">
+      <br>
+      <a [routerLink]="['../loginscreen']" class="underlineHover" routerLinkActive="router-link-active">Volver a Iniciar
+        Sesion</a>
+    </div>
 
 
   </div>

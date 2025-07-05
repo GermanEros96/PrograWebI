@@ -161,3 +161,42 @@ function patchLogin()
     $jwt = JWT::encode($payload, JWT_KEY);
     output(['jwt'=>$jwt]);
 }
+
+
+function postUsuarios()
+{
+    $db = conectarBD();
+    $data = json_decode(file_get_contents('php://input'), true);
+
+    // Sanitizar y obtener datos del JSON recibido
+    $email = mysqli_real_escape_string($db, $data['userName'] ?? '');
+    $clave = mysqli_real_escape_string($db, $data['password'] ?? '');
+    $nombre = mysqli_real_escape_string($db, $data['login'] ?? '');
+    $apellido = mysqli_real_escape_string($db, $data['namecomplete'] ?? '');
+
+    // Validar campos obligatorios (puedes agregar más validaciones)
+    if (empty($email) || empty($clave) || empty($nombre) || empty($apellido)) {
+        outputError(400); // Bad Request
+    }
+
+    // Verificar que el email no exista previamente
+    $sqlCheck = "SELECT id FROM usuarios WHERE email='$email'";
+    $resultCheck = mysqli_query($db, $sqlCheck);
+    if (mysqli_num_rows($resultCheck) > 0) {
+        output(['error' => 'El email ya está registrado'], 409); // Conflict
+    }
+
+    // Insertar nuevo usuario (NO guardamos la contraseña en texto plano, usar hash en producción)
+    $sql = "INSERT INTO usuarios (email, clave, nombre_completo) VALUES ('$email', '$clave', CONCAT('$nombre', ' ', '$apellido'))";
+    $result = mysqli_query($db, $sql);
+
+    if ($result === false) {
+        print mysqli_error($db);
+        outputError(500);
+    }
+
+    $id = mysqli_insert_id($db);
+    mysqli_close($db);
+
+    output(['id' => $id]);
+}

@@ -4,11 +4,12 @@ import { environment } from '../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
+import { FooterComponent } from './footer/footer.component';
 
 @Component({
  selector: 'app-root',
  standalone: true,
- imports: [RouterOutlet, CommonModule, LoginComponent],
+ imports: [RouterOutlet, CommonModule, LoginComponent,FooterComponent],
  templateUrl: './app.component.html',
  styleUrl: './app.component.css'
 })
